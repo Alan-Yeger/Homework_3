@@ -1,7 +1,8 @@
 #pragma once
-#include <type_traits>
 #include <iostream>
+#include <type_traits>
 #include <vector>
+#include <memory>
 
 using namespace std;
 
@@ -12,5 +13,7 @@ class Contenedor{
 
     private:
         string nombre;
-        vector<void*> contenedor;
+        vector<unique_ptr<T>> contenedor;
 };
+
+#include "../src/contenedor.cpp" //Tengo que ver si esto tiene que ir o no
