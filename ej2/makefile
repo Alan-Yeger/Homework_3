@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -std=c++20 -Wall -Wextra -Wpedantic -g
-SRC = example/main.cpp
+SRC = example/main.cpp $(wildcard src/*.cpp)
 OUT = ejec
 
 all: $(OUT)

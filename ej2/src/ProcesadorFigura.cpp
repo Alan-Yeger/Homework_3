@@ -23,6 +23,6 @@ float ProcesadorFigura<Elipse>::area(const Elipse& f) {
 
 //Punto
 template<>
-float ProcesadorFigura<Punto>::area(const Punto& f) {
+float ProcesadorFigura<Punto>::area(const Punto&) {
     return 0;
 }

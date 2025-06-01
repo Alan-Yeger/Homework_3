@@ -7,10 +7,14 @@ class Elipse {
     public:
         Elipse(): x(0), y(0), a(1), b(1){}
         Elipse(float x, float y, float a, float b): x(x), y(y), a(a), b(b){}
+        
+        //Setters
         void setX(float newX);
         void setY(float newY);
         void setA(float newA);
         void setB(float newB);
+
+        //Getters
         float getX() const;
         float getY() const;
         float getA() const;

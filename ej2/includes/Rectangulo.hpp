@@ -5,12 +5,16 @@ using namespace std;
 
 class Rectangulo {
     public:
-        Rectangulo(): x(0), y(0), w(1), h(1){}
+        Rectangulo(): x(0), y(0), w(1), h(1){} //Constructor default
         Rectangulo(float x, float y, float w, float h): x(x), y(y), w(w), h(h){}
+        
+        //Setters
         void setX(float newX);
         void setY(float newY);
         void setW(float newW);
         void setH(float newH);
+
+        //Getters
         float getX() const;
         float getY() const;
         float getW() const;

@@ -1,29 +1,30 @@
 #include "../includes/contenedor.hpp"
 #include "../includes/diccionario.hpp"
 #include <iostream>
+#include <vector>
+#include <string>
+#include <sstream>
+#include <type_traits>
 
 int main() {
-    auto doubles = make_shared<Contenedor<double>>();
-    doubles->agregarItem(1.3);
-    doubles->agregarItem(2.1);
-    doubles->agregarItem(3.2);
+    Clase1 c1;
 
-    auto palabras = make_shared<Contenedor<string>>();
-    palabras->agregarItem("Hola");
-    palabras->agregarItem("Mundo");
+    // Agregamos doubles
+    c1.add(1.3);
+    c1.add(2.1);
+    c1.add(3.2);
 
-    auto listas = make_shared<Contenedor<vector<vector<int>>>>();
-    listas->agregarItem({{1, 2}, {3, 4}});
+    // Agregamos strings
+    c1.add(std::string("Hola"));
+    c1.add(std::string("Mundo"));
 
-    Diccionario<double> diccDoubles;
-    Diccionario<string> diccStrings;
-    Diccionario<vector<vector<int>>> diccMatrices;
+    // Agregamos listas de int (filas)
+    c1.add(std::vector<int>{1, 2});
+    c1.add(std::vector<int>{3, 4});
 
-    diccDoubles.agregarContenedor("vec_doubles", doubles);
-    diccStrings.agregarContenedor("palabras", palabras);
-    diccMatrices.agregarContenedor("listas", listas);
+    // Creamos la clase 2 que arma el JSON
+    Clase2 c2(c1);
+    c2.imprimirJSON();
 
-    diccDoubles.mostrarJSON();
-    diccStrings.mostrarJSON();
-    diccMatrices.mostrarJSON();
+    return 0;
 }

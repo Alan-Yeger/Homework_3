@@ -1,47 +1,59 @@
 #pragma once
+#include "diccionario.hpp"
 #include <iostream>
-#include <type_traits>
 #include <vector>
-#include <memory>
-#include <concepts>
-#include <stdexcept>
+#include <string>
+#include <sstream>
+#include <type_traits>
 
 using namespace std;
 
-template<typename T>
-class Contenedor {
-public:
-    Contenedor() = default;
-    void agregarItem(const T& elem);
+class Clase2 {
+    private:
+        //En principio traté de hacerlo con un único vector, pero como los templates tienen distintos tipos T no podía
+        //Pensé en usar una clase contenedor_base con polimorfismo pero terminaba usando más clases de las que pide el problema.
+        //En esta implementación tenemos 3 referencias distintas a vectores con los distintos tipos que nos piden
+        const vector<double>& vec_doubles;
+        const vector<string>& palabras;
+        const vector<vector<int>>& listas;
 
-    const vector<unique_ptr<T>>& getItems() const {
-        return contenedor;
-    }
+    public:
+        //Inicializamos el objeto con referencias a los vectores de las otras clases
+        Clase2(const Clase1& c1): vec_doubles(c1.getDoubles()), palabras(c1.getPalabras()), listas(c1.getListas()) {}
 
-private:
-    vector<unique_ptr<T>> contenedor;
+        void imprimirJSON() {
+            cout << "{\n";
+
+            // Imprimir doubles
+            cout << " \"vec_doubles\" : [";
+            for (size_t i = 0; i < vec_doubles.size(); i++) {
+                cout << vec_doubles[i];
+                if (i != vec_doubles.size() - 1) cout << ", ";
+            }
+            cout << "],\n";
+
+            // Imprimir strings
+            cout << " \"palabras\" : [";
+            for (size_t i = 0; i < palabras.size(); i++) {
+                cout << "\"" << palabras[i] << "\"";
+                if (i != palabras.size() - 1) cout << ", ";
+            }
+            cout << "],\n";
+
+            // Imprimir matriz de enteros
+            cout << " \"listas\" : [\n";
+            for (size_t i = 0; i < listas.size(); i++) {
+                cout << "  [";
+                for (size_t j = 0; j < listas[i].size(); j++) {
+                    cout << listas[i][j];
+                    if (j != listas[i].size() - 1) cout << ", ";
+                }
+                cout << "]";
+                if (i != listas.size() - 1) cout << ",";
+                cout << "\n";
+            }
+            cout << " ]\n";
+
+            cout << "}\n";
+        }
 };
-
-// ↓↓↓ Implementación de la función template ↓↓↓
-
-template<typename T>
-concept is_string = is_same_v<T, string>;
-
-template<typename T>
-concept is_Matriz = is_same_v<T, vector<vector<int>>>;
-
-template<typename T>
-void Contenedor<T>::agregarItem(const T& elem) {
-    if constexpr(is_string<T>) {
-        contenedor.push_back(make_unique<T>(elem));
-    }
-    else if constexpr(is_floating_point_v<T>) {
-        contenedor.push_back(make_unique<T>(elem));
-    }
-    else if constexpr(is_Matriz<T>) {
-        contenedor.push_back(make_unique<T>(elem));
-    }
-    else {
-        throw invalid_argument("Tipo de dato no soportado :(");
-    }
-}
